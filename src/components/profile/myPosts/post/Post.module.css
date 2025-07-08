@@ -1,0 +1,22 @@
+.post {
+  margin-bottom: 15px;
+}
+
+.item {
+  font-size: 20px;
+  color: rgb(27, 7, 139);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.item img {
+  width: 50px;
+  border-radius: 50%;
+}
+
+.like {
+  color: darkred;
+  cursor: pointer;
+  margin: 5px 0;
+}

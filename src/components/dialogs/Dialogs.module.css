@@ -1,0 +1,36 @@
+.dialogs {
+  display: grid;
+  grid-template-columns: 2fr 10fr;
+}
+
+.dialogsItems {
+  padding: 10px;
+}
+
+.message {
+  padding: 10px;
+  color: white;
+}
+
+.active {
+  color: white;
+  /* padding: 9px; */
+  /* background-color: #555; Добавлен фон для наглядности */
+  /* border-radius: 4px; */
+}
+
+.dialog {
+  color: black;
+  text-decoration: none;
+  font-weight: 600;
+  /* display: block; */
+}
+
+.dialogItem {
+  margin-bottom: 5px;
+}
+
+.messageInput {
+  display: flex;
+  /* padding: 10px; */
+}

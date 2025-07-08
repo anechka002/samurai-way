@@ -1,0 +1,24 @@
+.postsBlock {
+  padding: 10px;
+}
+.postsBlock h3 {
+  margin-bottom: 10px;
+}
+
+.inputError {
+  border: 1px solid red;
+  outline: none;
+  border-radius: 3px;
+}
+.inputErrorMessage {
+  color: red;
+}
+
+.posts {
+  margin-top: 20px;
+}
+
+.postInput {
+  display: flex;
+  gap: 5px;
+}
