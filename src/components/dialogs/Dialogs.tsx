@@ -2,16 +2,19 @@ import s from './Dialogs.module.css';
 import { Message } from './message/Message';
 import { DialogItem } from './dialogItem/DialogItem';
 import type { ChangeEvent } from 'react';
-import { sendMessageAC, updateNewMessageTextAC, type ActionsTypes, type DialogPageType } from '@/redux/store';
+import { sendMessageAC, updateNewMessageTextAC } from '@/redux/store';
+import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
 
-type Props = {
-  state: DialogPageType;
-  dispatch: (action: ActionsTypes) => void;
-};
+export const Dialogs = () => {
 
-export const Dialogs = ({ state, dispatch }: Props) => {
+  const messages = useAppSelector(state => state.dialogsPage.messages)
+  const newMessage = useAppSelector(state => state.dialogsPage.newMessage)
+  const users = useAppSelector(state => state.dialogsPage.users)
+
+  const dispatch = useAppDispatch()
+
   const sendMessageHandler = () => {
-    dispatch(sendMessageAC(state.newMessage));
+    dispatch(sendMessageAC(newMessage));
   };
 
   const onMessageChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -21,18 +24,18 @@ export const Dialogs = ({ state, dispatch }: Props) => {
   return (
     <div className={s.dialogs}>
       <div className={s.dialogsItems}>
-        {state.users.map((user) => (
+        {users.map((user) => (
           <DialogItem key={user.id} user={user} />
         ))}
       </div>
       <div className={s.message}>
-        {state.messages.map((message) => (
+        {messages.map((message) => (
           <Message key={message.id} message={message} />
         ))}
         <div className={s.messageInput}>
           <textarea
             placeholder="Enter your message"
-            value={state.newMessage}
+            value={newMessage}
             onChange={onMessageChangeHandler}
           ></textarea>
           <button onClick={sendMessageHandler}>send</button>

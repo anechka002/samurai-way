@@ -1,30 +1,25 @@
-import { useState, type ChangeEvent, type KeyboardEvent} from 'react';
+import { type ChangeEvent, type KeyboardEvent} from 'react';
 import s from './MyPosts.module.css';
 import { Post } from './post/Post';
-import { addPostAC, type ActionsTypes, type PostType } from '@/redux/store';
+import { type PostType } from '@/redux/store';
 
 type Props = {
   posts: PostType[];
   newPostText: string;
-  dispatch: (action: ActionsTypes) => void;
-  // handleIncrementLikesCount: (postId: string) => void
+  onPostChange: (text: string) => void
+  onClickAddPost: () => void
+  error: string | null
+  setError: (value: string | null) => void
 };
 
-export const MyPosts = ({ posts, dispatch, newPostText }: Props) => {
-  const [error, setError] = useState<string | null>(null);
+export const MyPosts = ({ posts, newPostText, onPostChange, onClickAddPost, error, setError }: Props) => {
 
   const onPostChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    dispatch({ type: 'UPDATE-NEW-POST-TEXT', newText: e.currentTarget.value });
+    onPostChange(e.currentTarget.value)
   };
 
   const onClickAddPostHandler = () => {
-    let trimmedPostTitle = newPostText.trim();
-    if (trimmedPostTitle) {
-      // dispatch({type: 'ADD-POST', newPostText: trimmedPostTitle})
-      dispatch(addPostAC(trimmedPostTitle));
-    } else {
-      setError('Title is required');
-    }
+    onClickAddPost()
   };
 
   const onKeyDownAddPostHandler = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -53,7 +48,6 @@ export const MyPosts = ({ posts, dispatch, newPostText }: Props) => {
           <Post
             key={post.id}
             post={post}
-            // handleIncrementLikesCount={handleIncrementLikesCount}
           />
         ))}
       </div>

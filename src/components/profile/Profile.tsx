@@ -1,23 +1,12 @@
-import type { ActionsTypes, ProfilePageType } from '@/redux/store';
 import s from './Profile.module.css';
-import { MyPosts } from './myPosts/MyPosts';
 import { ProfileInfo } from './profileInfo/ProfileInfo';
+import { MyPostsContainer } from './myPosts/MyPostsContainer';
 
-type Props = {
-  state: ProfilePageType;
-  dispatch: (action: ActionsTypes) => void;
-  // handleIncrementLikesCount: (postId: string) => void
-};
-
-export const Profile = ({ state, dispatch }: Props) => {
+export const Profile = () => {
   return (
     <div className={s.profile}>
       <ProfileInfo />
-      <MyPosts
-        dispatch={dispatch}
-        newPostText={state.newPostText}
-        posts={state.posts}
-      />
+      <MyPostsContainer/>
     </div>
   );
 };
