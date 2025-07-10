@@ -1,5 +1,5 @@
 import { nanoid } from '@reduxjs/toolkit';
-import type { ActionsTypes, PostType, ProfilePageType } from './store';
+import type { PostType, ProfilePageType } from './store';
 
 const initState: ProfilePageType = {
   posts: [
@@ -48,6 +48,10 @@ export const profileReducer = (
     }
   }
 };
+
+export type ActionsTypes =
+  | ReturnType<typeof addPostAC>
+  | ReturnType<typeof updateNewPostTextAC>
 
 // action creators
 export const addPostAC = (newPostText: string) =>

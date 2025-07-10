@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { MyPosts } from "./MyPosts"
-import { useAppDispatch, useAppSelector } from "@/hooks/hooks"
 import { addPostAC, updateNewPostTextAC } from "@/redux/profile-reducer"
+import { useAppDispatch, useAppSelector } from "@/hooks"
 
 export const MyPostsContainer = () => {
 

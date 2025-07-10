@@ -3,7 +3,7 @@ import { Message } from './message/Message';
 import { DialogItem } from './dialogItem/DialogItem';
 import type { ChangeEvent } from 'react';
 import { sendMessageAC, updateNewMessageTextAC } from '@/redux/store';
-import { useAppDispatch, useAppSelector } from '@/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 
 export const Dialogs = () => {
 

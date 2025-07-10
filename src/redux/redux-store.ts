@@ -1,11 +1,13 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
 import { profileReducer } from './profile-reducer'
 import { dialogsReducer } from './dialogs-reducer'
+import { usersReducer } from './users-reducer'
 
 // объединение reducer'ов с помощью combineReducers
 const rootReducer = combineReducers({
   profilePage: profileReducer,
   dialogsPage: dialogsReducer,
+  usersPage: usersReducer
 })
 
 // создание store

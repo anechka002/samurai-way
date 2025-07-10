@@ -1,0 +1,56 @@
+.users {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.usersPhoto {
+  width: 100px;
+  height: auto;
+  border-radius: 50%;
+}
+
+.container{
+  margin: 20px;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.description {
+  border: 1px solid white;
+  border-radius: 10px;
+  display: flex;
+  width: 800px;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.name {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.location {
+  font-size: 18px;
+}
+
+.city {
+  padding-bottom: 10px;
+}
+
+.button {
+  font-size: 18px;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  padding: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.button:hover {
+  background-color: rgb(128, 169, 244);
+  color: white;
+}

@@ -1,7 +1,6 @@
 import './App.css';
-import Header from './components/header/Header';
 import { Routing } from './routing/Routing';
-import { NavBar } from './components/navBar/NavBar';
+import { Header, NavBar } from './components';
 
 function App() {
 

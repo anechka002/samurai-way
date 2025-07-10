@@ -1,0 +1,6 @@
+export { Header } from "./header/Header"
+export { NavBar } from "./navBar/NavBar"
+export { Users } from "./users/Users"
+export { News } from "./news/News"
+export { Dialogs } from "./dialogs/Dialogs"
+export { Profile } from "./profile/Profile"

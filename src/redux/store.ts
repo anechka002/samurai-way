@@ -57,6 +57,7 @@ export const sendMessageAC = (message: string) =>
 export const updateNewMessageTextAC = (text: string) =>
   ({ type: 'UPDATE-NEW-MESSAGE-TEXT', newText: text } as const);
 
+
 export const store: StoreType = {
   _state: {
     profilePage: {

@@ -1,5 +1,5 @@
 import { nanoid } from "@reduxjs/toolkit";
-import type { ActionsTypes, DialogPageType, MessageType } from "./store";
+import type { DialogPageType, MessageType } from "./store";
 
 const initState: DialogPageType = {
   users: [
@@ -46,3 +46,12 @@ export const dialogsReducer = (
     }
   }
 };
+
+export type ActionsTypes =
+  | ReturnType<typeof sendMessageAC>
+  | ReturnType<typeof updateNewMessageTextAC>;
+
+export const sendMessageAC = (message: string) =>
+  ({ type: 'SEND-MESSAGE', message } as const);
+export const updateNewMessageTextAC = (text: string) =>
+  ({ type: 'UPDATE-NEW-MESSAGE-TEXT', newText: text } as const);
