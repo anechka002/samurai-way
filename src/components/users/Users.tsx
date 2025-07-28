@@ -4,6 +4,7 @@ import { followAC, setCurrentPageAC, setTotalUsersCountAC, setUsersAC, unfollowA
 import { useEffect } from "react"
 import axios from "axios"
 import userPhoto from '../../assets/images/user.png'
+import { PaginationRounded } from "../pagination/Pagination"
 
 export const Users = () => {
   const users = useAppSelector((state) => state.usersPage.users)
@@ -20,41 +21,15 @@ export const Users = () => {
     })
   }, [currentPage, pageSize])
 
-  const visiblePagesCount = 1;
   const pagesCount = Math.ceil(totalUsersCount / pageSize)
-  let pages = []
-  for (let i = 1; i <= pagesCount; i++) {
-    if (
-      i <= visiblePagesCount || // Первые страницы
-      i > pagesCount - visiblePagesCount || // Последние страницы
-      (i >= currentPage - visiblePagesCount && i <= currentPage + visiblePagesCount) // Страницы вокруг текущей
-    ) {
-      pages.push(i);
-    } else if (pages[pages.length - 1] !== '...') {
-      pages.push('...'); // Добавляем многоточие
-    }
-  }
 
-  const onPageChangedHandler = (pageNumber: number) => {
+  const onPageChangedHandler = (e: React.ChangeEvent<unknown>, pageNumber: number) => {
     dispatch(setCurrentPageAC(pageNumber))
-    // axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${pageSize}`).then(res => {
-    //   dispatch(setUsersAC(res.data.items))
-    // })
   }
 
   return (
     <div>
       Users
-      <div>
-        {pages.map((p) => {
-          return <button 
-                    key={p}
-                    onClick={() => typeof p === 'number' && onPageChangedHandler(p)} 
-                    className={currentPage === p ? s.selectedPage : ''}
-                    disabled={p === '...'}
-                  >{p}</button>
-        })}
-      </div>
       {users.map((u) => (
         <div key={u.id} className={s.container}>
           <div className={s.users}>
@@ -95,6 +70,9 @@ export const Users = () => {
 
         </div>
       ))}
+      <div className={s.pages}>
+        <PaginationRounded count={pagesCount} page={currentPage} onChange={onPageChangedHandler} />
+      </div>
     </div>
   )
 }
