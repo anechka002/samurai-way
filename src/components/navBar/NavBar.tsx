@@ -16,6 +16,11 @@ export const NavBar = () => {
         </NavLink>
       </div>
       <div className={s.item}>
+        <NavLink to={PATH.USERS} className={({ isActive }) => (isActive ? s.active : s.item)}>
+          Users
+        </NavLink>
+      </div>
+      <div className={s.item}>
         <NavLink to={PATH.NEWS} className={({ isActive }) => (isActive ? s.active : s.item)}>
           News
         </NavLink>

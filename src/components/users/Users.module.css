@@ -54,3 +54,7 @@
   background-color: rgb(128, 169, 244);
   color: white;
 }
+
+.selectedPage {
+  font-weight: bold;
+}
