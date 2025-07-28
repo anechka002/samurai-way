@@ -1,16 +1,15 @@
-import { nanoid } from "@reduxjs/toolkit";
 
-type LocationType = {
-  city: string
-  country: string
+type UserPhoto = {
+  large: null | string
+  small: null | string
 }
 type UsersType = {
-  id: string
-  photoUrl: string
   followed: boolean
+  id: number
   name: string
+  photos: UserPhoto
   status: string
-  location: LocationType
+  uniqueUrlName: null
 }
 type UsersPageType = {
   users: UsersType[] 
@@ -55,9 +54,9 @@ export type ActionsTypes =
   | ReturnType<typeof setUsersAC>
 
   // action creators
-export const followAC = ( userId: string ) =>
+export const followAC = ( userId: number ) =>
   ({ type: 'FOLLOW', userId} as const);
-export const unfollowAC = (userId: string) =>
+export const unfollowAC = (userId: number) =>
   ({ type: 'UNFOLLOW', userId } as const);
 export const setUsersAC = (users: UsersType[]) =>
   ({ type: 'SET_USERS', users} as const);
