@@ -1,24 +1,30 @@
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import s from "./Users.module.css"
-import { followAC, setCurrentPageAC, setTotalUsersCountAC, setUsersAC, unfollowAC } from "@/redux/users-reducer"
+import { followAC, setCurrentPageAC, setTotalUsersCountAC, setUsersAC, toggleIsFetchingAC, unfollowAC } from "@/redux/users-reducer"
 import { useEffect } from "react"
 import axios from "axios"
-import userPhoto from '../../assets/images/user.png'
+import userPhoto from "../../assets/images/user.png"
 import { PaginationRounded } from "../pagination/Pagination"
+import { Preloader } from "../preloader/Preloader"
 
 export const Users = () => {
   const users = useAppSelector((state) => state.usersPage.users)
   const pageSize = useAppSelector((state) => state.usersPage.pageSize)
   const totalUsersCount = useAppSelector((state) => state.usersPage.totalUsersCount)
   const currentPage = useAppSelector((state) => state.usersPage.currentPage)
+  const isFetching = useAppSelector((state) => state.usersPage.isFetching)
 
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`).then(res => {
-      dispatch(setUsersAC(res.data.items))
-      dispatch(setTotalUsersCountAC(res.data.totalCount))
-    })
+    dispatch(toggleIsFetchingAC(true))
+    axios
+      .get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`)
+      .then((res) => {
+        dispatch(toggleIsFetchingAC(false))
+        dispatch(setUsersAC(res.data.items))
+        dispatch(setTotalUsersCountAC(res.data.totalCount))
+      })
   }, [currentPage, pageSize])
 
   const pagesCount = Math.ceil(totalUsersCount / pageSize)
@@ -28,9 +34,10 @@ export const Users = () => {
   }
 
   return (
-    <div>
-      Users
-      {users.map((u) => (
+    <div className={s.users}>
+      <div>Users</div>
+
+      {isFetching ? <Preloader/> : <>{users.map((u) => (
         <div key={u.id} className={s.container}>
           <div className={s.users}>
             <img className={s.usersPhoto} src={u.photos.small !== null ? u.photos.small : userPhoto} alt="photo" />
@@ -67,9 +74,10 @@ export const Users = () => {
               {/* <div>{u.location.country}</div> */}
             </div>
           </div>
-
         </div>
-      ))}
+      ))}</>}
+
+      
       <div className={s.pages}>
         <PaginationRounded count={pagesCount} page={currentPage} onChange={onPageChangedHandler} />
       </div>
