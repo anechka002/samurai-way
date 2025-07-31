@@ -3,6 +3,7 @@ export const PATH = {
   DIALOGS: "/dialogs",
   USERS: "/users",
   NEWS: "/news",
+  LOGIN: "/login",
   MUSIC: "/music",
   SETTINGS: "/settings",
   NOTFOUND: '*',
