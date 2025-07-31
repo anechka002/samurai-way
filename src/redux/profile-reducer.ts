@@ -1,5 +1,5 @@
+import type { PostType, ProfilePageType, ProfileType } from '@/types';
 import { nanoid } from '@reduxjs/toolkit';
-import type { PostType, ProfilePageType } from './store';
 
 const initState: ProfilePageType = {
   posts: [
@@ -17,6 +17,7 @@ const initState: ProfilePageType = {
     },
   ],
   newPostText: 'Test',
+  profile: null,
 };
 
 export const profileReducer = (
@@ -43,6 +44,12 @@ export const profileReducer = (
         newPostText: action.newText,
       };
     }
+    case 'SET_USER_PROFILE': {
+      return {
+        ...state,
+        profile: action.profile,
+      }
+    }
     default: {
       return state;
     }
@@ -52,9 +59,12 @@ export const profileReducer = (
 export type ActionsTypes =
   | ReturnType<typeof addPostAC>
   | ReturnType<typeof updateNewPostTextAC>
+  | ReturnType<typeof setUserProfileAC>
 
 // action creators
 export const addPostAC = (newPostText: string) =>
   ({ type: 'ADD-POST', newPostText } as const);
 export const updateNewPostTextAC = (text: string) =>
   ({ type: 'UPDATE-NEW-POST-TEXT', newText: text } as const);
+export const setUserProfileAC = (profile: ProfileType) =>
+  ({ type: 'SET_USER_PROFILE', profile } as const);

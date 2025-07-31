@@ -1,5 +1,5 @@
+import type { DialogPageType, MessageType } from "@/types";
 import { nanoid } from "@reduxjs/toolkit";
-import type { DialogPageType, MessageType } from "./store";
 
 const initState: DialogPageType = {
   users: [

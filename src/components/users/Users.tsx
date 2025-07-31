@@ -6,6 +6,7 @@ import axios from "axios"
 import userPhoto from "../../assets/images/user.png"
 import { PaginationRounded } from "../pagination/Pagination"
 import { Preloader } from "../preloader/Preloader"
+import { NavLink } from "react-router"
 
 export const Users = () => {
   const users = useAppSelector((state) => state.usersPage.users)
@@ -40,7 +41,9 @@ export const Users = () => {
       {isFetching ? <Preloader/> : <>{users.map((u) => (
         <div key={u.id} className={s.container}>
           <div className={s.users}>
-            <img className={s.usersPhoto} src={u.photos.small !== null ? u.photos.small : userPhoto} alt="photo" />
+            <NavLink to={'/profile/' + u.id}>
+              <img className={s.usersPhoto} src={u.photos.small !== null ? u.photos.small : userPhoto} alt="photo" />
+            </NavLink>
             <div>
               {u.followed ? (
                 <button

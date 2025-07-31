@@ -7,6 +7,7 @@ export const Routing = () => {
     <Routes>
       <Route path={PATH.DIALOGS} element={<Dialogs />} />
       <Route path={PATH.PROFILE} element={<Profile />} />
+      <Route path={'/profile/:userId'} element={<Profile />} />
       <Route path={PATH.USERS} element={<Users />} />
       <Route path={PATH.NEWS} element={<News />} />
     </Routes>
