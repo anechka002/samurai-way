@@ -1,7 +1,7 @@
 import { type ChangeEvent, type KeyboardEvent} from 'react';
 import s from './MyPosts.module.css';
 import { Post } from './post/Post';
-import { type PostType } from '@/redux/store';
+import type { PostType } from '@/types';
 
 type Props = {
   posts: PostType[];

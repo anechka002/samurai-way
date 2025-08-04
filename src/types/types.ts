@@ -1,13 +1,19 @@
+import type { UsersType } from "@/redux/users-reducer";
+
 export type PostType = {
   id: string;
   img: string;
   message: string;
   likesCount: number;
 };
-export type UserType = {
-  id: number;
-  name: string;
-};
+// export type UsersType = {
+//   id: number;
+//   name: string;
+//   uniqueUrlName: string | null;
+//   photos: {
+
+//   }
+// };
 export type MessageType = {
   id: string;
   text: string;
@@ -41,7 +47,7 @@ type Photos = {
   large: string;
 }
 export type DialogPageType = {
-  users: UserType[];
+  users: UsersType[];
   messages: MessageType[];
   newMessage: string;
 };

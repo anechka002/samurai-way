@@ -7,6 +7,7 @@ type Props = {
 }
 
 export const ProfileInfo = ({profile}: Props) => {
+
   if(!profile){
     return <Preloader/>
   }
@@ -24,12 +25,12 @@ export const ProfileInfo = ({profile}: Props) => {
           <h2>{profile.fullName}</h2>
           <h3>{profile.aboutMe}</h3>
           <h4>Contacts:</h4>
-          <span>{profile.contacts.facebook}</span>
-          <span>{profile.contacts.github}</span>
-          <span>{profile.contacts.instagram}</span>
-          <span>{profile.contacts.vk}</span>
-          <span>{profile.contacts.twitter}</span>
-          <span>{profile.lookingForAJobDescription}</span>
+          <span>facebook: {profile.contacts.facebook}</span>
+          <span>github: {profile.contacts.github}</span>
+          <span>instagram: {profile.contacts.instagram}</span>
+          <span>vk: {profile.contacts.vk}</span>
+          <span>twitter: {profile.contacts.twitter}</span>
+          <span>looking For A Job: {profile.lookingForAJobDescription}</span>
         </div>
       </div>
     </>

@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import s from './Header.module.css'
 import { NavLink } from 'react-router';
-import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { setAuthUserDataAC } from '@/redux/auth-reducer';
+import { authAPI } from '@/api/api';
 
 export const Header = () => {
   const dispatch = useAppDispatch()
@@ -11,12 +11,10 @@ export const Header = () => {
   const login = useAppSelector(state => state.auth.login)
 
   useEffect(() => {
-    axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-      withCredentials: true,
-    })
-      .then((res) => {
-        if(res.data.resultCode === 0) {
-          let {id, email, login} = res.data.data
+    authAPI.me()
+      .then((data) => {
+        if(data.resultCode === 0) {
+          let {id, email, login} = data.data
           dispatch(setAuthUserDataAC(id, email, login))
         }
       })
@@ -24,7 +22,7 @@ export const Header = () => {
         console.error('Error fetching auth:', error);
       });
   }, [])
-  
+
   return (
     <header className={s.header}>
       <img

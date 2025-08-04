@@ -2,11 +2,11 @@ import { useAppDispatch, useAppSelector } from "@/hooks"
 import s from "./Users.module.css"
 import { followAC, setCurrentPageAC, setTotalUsersCountAC, setUsersAC, toggleIsFetchingAC, unfollowAC } from "@/redux/users-reducer"
 import { useEffect } from "react"
-import axios from "axios"
 import userPhoto from "../../assets/images/user.png"
 import { PaginationRounded } from "../pagination/Pagination"
 import { Preloader } from "../preloader/Preloader"
 import { NavLink } from "react-router"
+import { followAPI, usersAPI } from "@/api/api"
 
 export const Users = () => {
   const users = useAppSelector((state) => state.usersPage.users)
@@ -19,12 +19,11 @@ export const Users = () => {
 
   useEffect(() => {
     dispatch(toggleIsFetchingAC(true))
-    axios
-      .get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`)
-      .then((res) => {
+    usersAPI.getUsers(currentPage, pageSize)
+      .then((data) => {
         dispatch(toggleIsFetchingAC(false))
-        dispatch(setUsersAC(res.data.items))
-        dispatch(setTotalUsersCountAC(res.data.totalCount))
+        dispatch(setUsersAC(data.items))
+        dispatch(setTotalUsersCountAC(data.totalCount))
       })
   }, [currentPage, pageSize])
 
@@ -49,7 +48,12 @@ export const Users = () => {
                 <button
                   className={s.button}
                   onClick={() => {
-                    dispatch(unfollowAC(u.id))
+                    followAPI.unfollow(u.id)
+                    .then((data) => {
+                      if(data.resultCode === 0) {
+                        dispatch(unfollowAC(u.id))
+                      }
+                    })
                   }}
                 >
                   Unfollow
@@ -58,7 +62,13 @@ export const Users = () => {
                 <button
                   className={s.button}
                   onClick={() => {
-                    dispatch(followAC(u.id))
+                    followAPI.follow(u.id)
+                    .then((data) => {
+                      console.log(data)
+                      if(data.resultCode === 0) {
+                        dispatch(followAC(u.id))
+                      }
+                    })
                   }}
                 >
                   Follow

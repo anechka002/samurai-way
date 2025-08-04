@@ -3,7 +3,7 @@ type UserPhoto = {
   large: null | string
   small: null | string
 }
-type UsersType = {
+export type UsersType = {
   followed: boolean
   id: number
   name: string
