@@ -1,6 +1,6 @@
 import './App.css';
-import { Routing } from './routing/Routing';
 import { Header, NavBar } from './components';
+import { Routing } from './routing';
 
 function App() {
 
