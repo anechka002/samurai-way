@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import s from "./Users.module.css"
-import { followAC, setCurrentPageAC, setTotalUsersCountAC, setUsersAC, toggleIsFetchingAC, unfollowAC } from "@/redux/users-reducer"
+import { followAC, setCurrentPageAC, setTotalUsersCountAC, setUsersAC, toggleIsFetchingAC, toggleIsFollowingProgressAC, unfollowAC } from "@/redux/users-reducer"
 import { useEffect } from "react"
 import userPhoto from "../../assets/images/user.png"
 import { PaginationRounded } from "../pagination/Pagination"
@@ -14,6 +14,7 @@ export const Users = () => {
   const totalUsersCount = useAppSelector((state) => state.usersPage.totalUsersCount)
   const currentPage = useAppSelector((state) => state.usersPage.currentPage)
   const isFetching = useAppSelector((state) => state.usersPage.isFetching)
+  const followingInProgress = useAppSelector((state) => state.usersPage.followingInProgress)
 
   const dispatch = useAppDispatch()
 
@@ -47,12 +48,15 @@ export const Users = () => {
               {u.followed ? (
                 <button
                   className={s.button}
+                  disabled={followingInProgress.some(el => el === u.id)}
                   onClick={() => {
+                    dispatch(toggleIsFollowingProgressAC(true, u.id))
                     followAPI.unfollow(u.id)
                     .then((data) => {
                       if(data.resultCode === 0) {
                         dispatch(unfollowAC(u.id))
                       }
+                      dispatch(toggleIsFollowingProgressAC(false, u.id))
                     })
                   }}
                 >
@@ -61,13 +65,16 @@ export const Users = () => {
               ) : (
                 <button
                   className={s.button}
+                  disabled={followingInProgress.some(el => el === u.id)}
                   onClick={() => {
+                    dispatch(toggleIsFollowingProgressAC(true, u.id))
                     followAPI.follow(u.id)
                     .then((data) => {
                       console.log(data)
                       if(data.resultCode === 0) {
                         dispatch(followAC(u.id))
                       }
+                      dispatch(toggleIsFollowingProgressAC(false, u.id))
                     })
                   }}
                 >

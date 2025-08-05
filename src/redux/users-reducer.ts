@@ -17,6 +17,7 @@ type UsersPageType = {
   totalUsersCount: number
   currentPage: number
   isFetching: boolean
+  followingInProgress: number[]
 }
 
 const initState: UsersPageType = {
@@ -24,7 +25,8 @@ const initState: UsersPageType = {
   pageSize: 10,
   totalUsersCount: 0,
   currentPage: 1,
-  isFetching: false
+  isFetching: false,
+  followingInProgress: [],
 };
 
 export const usersReducer = (
@@ -68,6 +70,14 @@ export const usersReducer = (
         isFetching: action.isFetching
       }
     }
+    case 'TOGGLE_IS_FOLLOWING_PROGRESS': {
+      return {
+        ...state,
+        followingInProgress: action.isDisabled 
+          ? [...state.followingInProgress, action.userId]
+          : state.followingInProgress.filter(el => el !== action.userId) 
+      }
+    }
     default: {
       return state;
     }
@@ -81,6 +91,7 @@ export type ActionsTypes =
   | ReturnType<typeof setCurrentPageAC>
   | ReturnType<typeof setTotalUsersCountAC>
   | ReturnType<typeof toggleIsFetchingAC>
+  | ReturnType<typeof toggleIsFollowingProgressAC>
 
   // action creators
 export const followAC = ( userId: number ) =>
@@ -95,5 +106,7 @@ export const setTotalUsersCountAC = (totalCount: number) =>
   ({ type: 'SET_TOTAL_USERS_COUNT', totalCount} as const);
 export const toggleIsFetchingAC = (isFetching: boolean) =>
   ({ type: 'TOGGLE_IS_FETCHING', isFetching} as const);
+export const toggleIsFollowingProgressAC = (isDisabled: boolean, userId: number) =>
+  ({ type: 'TOGGLE_IS_FOLLOWING_PROGRESS', isDisabled, userId} as const);  // add userId to the payload
 
 
