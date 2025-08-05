@@ -12,22 +12,22 @@ const instance = axios.create({
 
 export const usersAPI = {
   getUsers(currentPage: number, pageSize: number) {
-    return instance.get<baseResponseUsers>(`users?page=${currentPage}&count=${pageSize}`).then((res) => res.data)
+    return instance.get<BaseResponseUsers>(`users?page=${currentPage}&count=${pageSize}`).then((res) => res.data)
   },
 }
 
 export const followAPI = {
   follow(id: number) {
-    return instance.post<baseResponse<{}>>(`follow/${id}`).then((res) => res.data)
+    return instance.post<BaseResponse<{}>>(`follow/${id}`).then((res) => res.data)
   },
   unfollow(id: number) {
-    return instance.delete<baseResponse<{}>>(`follow/${id}`).then((res) => res.data)
+    return instance.delete<BaseResponse<{}>>(`follow/${id}`).then((res) => res.data)
   },
 }
 
 export const authAPI = {
   me(){
-    return instance.get<baseResponse<AuthType>>(`auth/me`).then((res) => res.data)
+    return instance.get<BaseResponse<AuthType>>(`auth/me`).then((res) => res.data)
   }
 }
 
@@ -38,7 +38,7 @@ export const profileAPI = {
 }
 
 
-type baseResponseUsers = {
+type BaseResponseUsers = {
   items: UsersType[]
   totalCount: number
   error: null | string
@@ -50,7 +50,7 @@ type AuthType = {
   login: string
 }
 
-export type baseResponse<T> = {
+export type BaseResponse<T> = {
   data: T
   message: string[]
   fieldsErrors: string[]

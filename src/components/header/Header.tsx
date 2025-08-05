@@ -2,8 +2,7 @@ import { useEffect } from 'react';
 import s from './Header.module.css'
 import { NavLink } from 'react-router';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { setAuthUserDataAC } from '@/redux/auth-reducer';
-import { authAPI } from '@/api/api';
+import { getAuthUserDataTC } from '@/redux/auth-reducer';
 
 export const Header = () => {
   const dispatch = useAppDispatch()
@@ -11,16 +10,7 @@ export const Header = () => {
   const login = useAppSelector(state => state.auth.login)
 
   useEffect(() => {
-    authAPI.me()
-      .then((data) => {
-        if(data.resultCode === 0) {
-          let {id, email, login} = data.data
-          dispatch(setAuthUserDataAC(id, email, login))
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching auth:', error);
-      });
+    dispatch(getAuthUserDataTC())
   }, [])
 
   return (

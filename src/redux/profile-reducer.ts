@@ -1,5 +1,6 @@
+import { profileAPI } from '@/api/api';
 import type { PostType, ProfilePageType, ProfileType } from '@/types';
-import { nanoid } from '@reduxjs/toolkit';
+import { nanoid, type Dispatch } from '@reduxjs/toolkit';
 
 const initState: ProfilePageType = {
   posts: [
@@ -68,3 +69,16 @@ export const updateNewPostTextAC = (text: string) =>
   ({ type: 'UPDATE-NEW-POST-TEXT', newText: text } as const);
 export const setUserProfileAC = (profile: ProfileType) =>
   ({ type: 'SET_USER_PROFILE', profile } as const);
+
+// thunk
+export const getUserProfileTC = (numericUserId: number) => {
+  return (dispatch: Dispatch) => {
+    profileAPI.getUserProfile(numericUserId)
+      .then((data) => {
+        dispatch(setUserProfileAC(data))
+      })
+      .catch((error) => {
+        console.error('Error fetching profile:', error);
+      });
+  }
+}

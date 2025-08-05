@@ -1,12 +1,11 @@
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import s from "./Users.module.css"
-import { followAC, setCurrentPageAC, setTotalUsersCountAC, setUsersAC, toggleIsFetchingAC, toggleIsFollowingProgressAC, unfollowAC } from "@/redux/users-reducer"
+import { followTC, getUsersTC, setCurrentPageAC, unfollowTC } from "@/redux/users-reducer"
 import { useEffect } from "react"
 import userPhoto from "../../assets/images/user.png"
 import { PaginationRounded } from "../pagination/Pagination"
 import { Preloader } from "../preloader/Preloader"
 import { NavLink } from "react-router"
-import { followAPI, usersAPI } from "@/api/api"
 
 export const Users = () => {
   const users = useAppSelector((state) => state.usersPage.users)
@@ -19,13 +18,7 @@ export const Users = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(toggleIsFetchingAC(true))
-    usersAPI.getUsers(currentPage, pageSize)
-      .then((data) => {
-        dispatch(toggleIsFetchingAC(false))
-        dispatch(setUsersAC(data.items))
-        dispatch(setTotalUsersCountAC(data.totalCount))
-      })
+    dispatch(getUsersTC(currentPage, pageSize))
   }, [currentPage, pageSize])
 
   const pagesCount = Math.ceil(totalUsersCount / pageSize)
@@ -49,16 +42,7 @@ export const Users = () => {
                 <button
                   className={s.button}
                   disabled={followingInProgress.some(el => el === u.id)}
-                  onClick={() => {
-                    dispatch(toggleIsFollowingProgressAC(true, u.id))
-                    followAPI.unfollow(u.id)
-                    .then((data) => {
-                      if(data.resultCode === 0) {
-                        dispatch(unfollowAC(u.id))
-                      }
-                      dispatch(toggleIsFollowingProgressAC(false, u.id))
-                    })
-                  }}
+                  onClick={() => {dispatch(unfollowTC(u.id))}}
                 >
                   Unfollow
                 </button>
@@ -66,17 +50,7 @@ export const Users = () => {
                 <button
                   className={s.button}
                   disabled={followingInProgress.some(el => el === u.id)}
-                  onClick={() => {
-                    dispatch(toggleIsFollowingProgressAC(true, u.id))
-                    followAPI.follow(u.id)
-                    .then((data) => {
-                      console.log(data)
-                      if(data.resultCode === 0) {
-                        dispatch(followAC(u.id))
-                      }
-                      dispatch(toggleIsFollowingProgressAC(false, u.id))
-                    })
-                  }}
+                  onClick={() => {dispatch(followTC(u.id))}}
                 >
                   Follow
                 </button>
