@@ -1,9 +1,9 @@
 import { NavLink } from 'react-router';
 import s from '../Dialogs.module.css';
-import type { UserType } from '@/redux/store';
+import type { UsersType } from '@/redux/users-reducer';
 
 type PropsType = {
-  user: UserType;
+  user: UsersType;
 };
 
 export const DialogItem = ({ user }: PropsType) => {

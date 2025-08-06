@@ -17,7 +17,7 @@ const initState: ProfilePageType = {
       likesCount: 10,
     },
   ],
-  newPostText: 'Test',
+  // newPostText: 'Test',
   profile: null,
   status: '',
 };
@@ -37,15 +37,15 @@ export const profileReducer = (
       return {
         ...state,
         posts: [newPost, ...state.posts],
-        newPostText: '',
+        // newPostText: '',
       };
     }
-    case 'UPDATE-NEW-POST-TEXT': {
-      return {
-        ...state,
-        newPostText: action.newText,
-      };
-    }
+    // case 'UPDATE-NEW-POST-TEXT': {
+    //   return {
+    //     ...state,
+    //     newPostText: action.newText,
+    //   };
+    // }
     case 'SET_USER_PROFILE': {
       return {
         ...state,
@@ -66,15 +66,15 @@ export const profileReducer = (
 
 export type ActionsTypes =
   | ReturnType<typeof addPostAC>
-  | ReturnType<typeof updateNewPostTextAC>
+  // | ReturnType<typeof updateNewPostTextAC>
   | ReturnType<typeof setUserProfileAC>
   | ReturnType<typeof setStatusProfileAC>
 
 // action creators
 export const addPostAC = (newPostText: string) =>
   ({ type: 'ADD-POST', newPostText } as const);
-export const updateNewPostTextAC = (text: string) =>
-  ({ type: 'UPDATE-NEW-POST-TEXT', newText: text } as const);
+// export const updateNewPostTextAC = (text: string) =>
+//   ({ type: 'UPDATE-NEW-POST-TEXT', newText: text } as const);
 export const setUserProfileAC = (profile: ProfileType) =>
   ({ type: 'SET_USER_PROFILE', profile } as const);
 export const setStatusProfileAC = (status: string) =>
@@ -92,6 +92,7 @@ export const getUserProfileTC = (numericUserId: number) => {
       });
   }
 }
+
 export const getStatusTC = (numericUserId: number) => {
   return (dispatch: Dispatch) => {
     profileAPI.getStatus(numericUserId)
@@ -104,6 +105,7 @@ export const getStatusTC = (numericUserId: number) => {
       });
   }
 }
+
 export const updateStatusTC = (status: string) => {
   return (dispatch: Dispatch) => {
     profileAPI.updateStatus(status)

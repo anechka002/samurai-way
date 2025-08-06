@@ -1,5 +1,5 @@
 import type { UsersType } from "@/redux/users-reducer"
-import type { ProfileType } from '@/types';
+import type { Inputs, ProfileType } from '@/types';
 import axios from "axios"
 
 const instance = axios.create({
@@ -28,6 +28,9 @@ export const followAPI = {
 export const authAPI = {
   me(){
     return instance.get<BaseResponse<AuthType>>(`auth/me`).then((res) => res.data)
+  },
+  login(payload: Inputs) {
+    return instance.post<BaseResponse<AuthType>>(`/auth/login`, { ...payload })
   }
 }
 

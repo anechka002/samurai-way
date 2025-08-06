@@ -20,7 +20,7 @@ export type MessageType = {
 };
 export type ProfilePageType = {
   posts: PostType[];
-  newPostText: string;
+  // newPostText: string;
   profile: ProfileType | null;
   status: string
 };
@@ -50,7 +50,6 @@ type Photos = {
 export type DialogPageType = {
   users: UsersType[];
   messages: MessageType[];
-  newMessage: string;
 };
 export type SidebarType = {};
 export type RootStateType = {
@@ -58,3 +57,10 @@ export type RootStateType = {
   dialogsPage: DialogPageType;
   sidebar: SidebarType;
 };
+
+export type Inputs = {
+  email: string
+  password: string
+  rememberMe: boolean
+  captcha: string
+}

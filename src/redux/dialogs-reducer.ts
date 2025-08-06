@@ -16,7 +16,6 @@ const initState: DialogPageType = {
     { id: nanoid(), text: 'Ok' },
     { id: nanoid(), text: 'Yo' },
   ],
-  newMessage: '',
 };
 
 export const dialogsReducer = (
@@ -31,14 +30,7 @@ export const dialogsReducer = (
       };
       return {
         ...state,
-        messages: [newMessage, ...state.messages],
-        newMessage: '',
-      };
-    }
-    case 'UPDATE-NEW-MESSAGE-TEXT': {
-      return {
-        ...state,
-        newMessage: action.newText,
+        messages: [newMessage, ...state.messages]
       };
     }
     default: {
@@ -49,9 +41,6 @@ export const dialogsReducer = (
 
 export type ActionsTypes =
   | ReturnType<typeof sendMessageAC>
-  | ReturnType<typeof updateNewMessageTextAC>;
 
 export const sendMessageAC = (message: string) =>
   ({ type: 'SEND-MESSAGE', message } as const);
-export const updateNewMessageTextAC = (text: string) =>
-  ({ type: 'UPDATE-NEW-MESSAGE-TEXT', newText: text } as const);

@@ -1,4 +1,5 @@
 import { authAPI } from "@/api/api"
+import type { Inputs } from "@/types"
 import type { Dispatch } from "@reduxjs/toolkit"
 
 type AuthType = {
@@ -40,12 +41,26 @@ export const setAuthUserDataAC = (id: number, email: string, login: string) =>
 // thunk
 export const getAuthUserDataTC = () => {
   return (dispatch: Dispatch) => {
-    authAPI
-      .me()
+    authAPI.me()
       .then((data) => {
         if (data.resultCode === 0) {
           let { id, email, login } = data.data
           dispatch(setAuthUserDataAC(id, email, login))
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching auth:", error)
+      })
+  }
+}
+export const loginTC = (arg: Inputs) => {
+  return (dispatch: Dispatch) => {
+    authAPI.login(arg)
+      .then((res) => {
+        // debugger
+        if (res.data.resultCode === 0) {
+          // let { id, email, login } = res.data.data
+          // dispatch(setAuthUserDataAC(id, email, login))
         }
       })
       .catch((error) => {

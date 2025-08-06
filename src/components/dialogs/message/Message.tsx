@@ -1,4 +1,4 @@
-import type { MessageType } from '@/redux/store';
+import type { MessageType } from '@/types';
 import s from './Message.module.css';
 
 type PropsType = {
