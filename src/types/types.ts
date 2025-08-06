@@ -22,6 +22,7 @@ export type ProfilePageType = {
   posts: PostType[];
   newPostText: string;
   profile: ProfileType | null;
+  status: string
 };
 export type ProfileType = {
   aboutMe: string;

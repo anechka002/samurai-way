@@ -3,7 +3,7 @@ import { ProfileInfo } from "./profileInfo/ProfileInfo"
 import { MyPostsContainer } from "./myPosts/MyPostsContainer"
 import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "@/hooks"
-import { getUserProfileTC } from "@/redux/profile-reducer"
+import { getStatusTC, getUserProfileTC } from "@/redux/profile-reducer"
 import { useParams } from "react-router"
 
 export const Profile = () => {
@@ -20,6 +20,7 @@ export const Profile = () => {
 
   useEffect(() => {
     dispatch(getUserProfileTC(numericUserId))
+    dispatch(getStatusTC(numericUserId))
   }, [numericUserId])
 
   return (

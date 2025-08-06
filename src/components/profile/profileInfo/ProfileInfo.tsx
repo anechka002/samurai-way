@@ -1,28 +1,32 @@
-import { Preloader } from '@/components/preloader/Preloader';
-import s from './ProfileInfo.module.css'
-import type { ProfileType } from '@/types';
+import { Preloader } from "@/components/preloader/Preloader"
+import s from "./ProfileInfo.module.css"
+import type { ProfileType } from "@/types"
+import { ProfileStatus } from "./ProfileStatus"
+import { useAppSelector } from "@/hooks"
 
 type Props = {
   profile: ProfileType | null
 }
 
-export const ProfileInfo = ({profile}: Props) => {
+export const ProfileInfo = ({ profile }: Props) => {
+  const status = useAppSelector((state) => state.profilePage.status)
 
-  if(!profile){
-    return <Preloader/>
+  if (!profile) {
+    return <Preloader />
   }
   return (
     <>
       <div>
-        <img
+        {/* <img
           src="https://helpx.adobe.com/content/dam/help/en/photoshop/using/convert-color-image-black-white/jcr_content/main-pars/before_and_after/image-before/Landscape-Color.jpg"
           alt="img"
-        />
+        /> */}
       </div>
       <div className={s.descriptionBlock}>
-        <img src={profile.photos.large}/>
+        <img src={profile.photos.large} />
         <div className={s.profileBlock}>
           <h2>{profile.fullName}</h2>
+          <ProfileStatus status={status} />
           <h3>{profile.aboutMe}</h3>
           <h4>Contacts:</h4>
           <span>facebook: {profile.contacts.facebook}</span>
@@ -34,5 +38,5 @@ export const ProfileInfo = ({profile}: Props) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}

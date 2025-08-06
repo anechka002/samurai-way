@@ -19,6 +19,7 @@ const initState: ProfilePageType = {
   ],
   newPostText: 'Test',
   profile: null,
+  status: '',
 };
 
 export const profileReducer = (
@@ -51,6 +52,12 @@ export const profileReducer = (
         profile: action.profile,
       }
     }
+    case 'SET_STATUS_PROFILE': {
+      return {
+        ...state,
+        status: action.status,
+      }
+    }
     default: {
       return state;
     }
@@ -61,6 +68,7 @@ export type ActionsTypes =
   | ReturnType<typeof addPostAC>
   | ReturnType<typeof updateNewPostTextAC>
   | ReturnType<typeof setUserProfileAC>
+  | ReturnType<typeof setStatusProfileAC>
 
 // action creators
 export const addPostAC = (newPostText: string) =>
@@ -69,6 +77,8 @@ export const updateNewPostTextAC = (text: string) =>
   ({ type: 'UPDATE-NEW-POST-TEXT', newText: text } as const);
 export const setUserProfileAC = (profile: ProfileType) =>
   ({ type: 'SET_USER_PROFILE', profile } as const);
+export const setStatusProfileAC = (status: string) =>
+  ({ type: 'SET_STATUS_PROFILE', status } as const);
 
 // thunk
 export const getUserProfileTC = (numericUserId: number) => {
@@ -76,6 +86,31 @@ export const getUserProfileTC = (numericUserId: number) => {
     profileAPI.getUserProfile(numericUserId)
       .then((data) => {
         dispatch(setUserProfileAC(data))
+      })
+      .catch((error) => {
+        console.error('Error fetching profile:', error);
+      });
+  }
+}
+export const getStatusTC = (numericUserId: number) => {
+  return (dispatch: Dispatch) => {
+    profileAPI.getStatus(numericUserId)
+      .then((data) => {
+        // debugger
+        dispatch(setStatusProfileAC(data))
+      })
+      .catch((error) => {
+        console.error('Error fetching profile:', error);
+      });
+  }
+}
+export const updateStatusTC = (status: string) => {
+  return (dispatch: Dispatch) => {
+    profileAPI.updateStatus(status)
+      .then((data) => {
+        if(data.resultCode === 0) {
+          dispatch(setStatusProfileAC(status))
+        }
       })
       .catch((error) => {
         console.error('Error fetching profile:', error);
