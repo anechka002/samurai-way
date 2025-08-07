@@ -9,3 +9,7 @@
   color: darkred;
   font-size: 16px;
 }
+
+.errorBorder {
+  border: 2px solid darkred;
+}

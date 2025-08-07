@@ -28,7 +28,8 @@ export const AddMessageForm = ({ onSubmit }: Props) => {
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <div className={s.messageInput}>
         <textarea
-          placeholder="Enter your message"
+          className={errors.text ? s.errorBorder : ''}
+          placeholder="Post message"
           {...register("text", {
             required: "This is required.",
             minLength: { value: 2, message: "Minimum length is 2." },

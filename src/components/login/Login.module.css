@@ -1,5 +1,54 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-left: 10px;
+  margin-bottom: 50px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login {
+  width: 200px;
+  height: 30px;
+}
+
 .errorMessage {
-  color: red;
+  color: darkred;
   font-size: 16px;
-  margin: 2px;
+  margin: 5px 0;
+}
+
+.checkboxContainer {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.checkbox {
+  width: 25px;
+  height: 25px;
+  margin: 0;
+}
+
+.button {
+  width: 209px;
+  height: 30px;
+  margin: 0 auto;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;   
+  background-color: #fff;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button:hover {
+  background-color: rgb(8, 102, 233);
+  transform: scale(1.05); 
+  color: white; 
 }
