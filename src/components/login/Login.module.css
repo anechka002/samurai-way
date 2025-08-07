@@ -48,6 +48,7 @@
 }
 
 .button:hover {
+  border-radius: 5px;
   background-color: rgb(8, 102, 233);
   transform: scale(1.05); 
   color: white; 

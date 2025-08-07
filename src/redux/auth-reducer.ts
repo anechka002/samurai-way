@@ -1,6 +1,7 @@
 import { authAPI } from "@/api/api"
 import type { Inputs } from "@/types"
-import type { Dispatch } from "@reduxjs/toolkit"
+import type { Dispatch, ThunkAction } from "@reduxjs/toolkit"
+import type { AppDispatch, RootState } from "./redux-store"
 
 type AuthType = {
   id: null | number
@@ -12,7 +13,7 @@ type AuthType = {
 const initState: AuthType = {
   id: null,
   email: null,
-  login: "samurai",
+  login: null,
   isAuth: false,
 }
 
@@ -21,25 +22,32 @@ export const authReducer = (state: AuthType = initState, action: ActionsTypes): 
     case "SET_USER_DATA": {
       return {
         ...state,
-        ...action.data,
+        ...action.payload,
         isAuth: true,
       }
     }
-
+    case "RESET_USER_AUTH_DATA": {
+      return {
+        ...state,
+        ...initState
+      }
+    }
     default: {
       return state
     }
   }
 }
 
-export type ActionsTypes = ReturnType<typeof setAuthUserDataAC>
+export type ActionsTypes = ReturnType<typeof setAuthUserDataAC> | ReturnType<typeof resetAuthUserDataAC>
 
 // action creators
 export const setAuthUserDataAC = (id: number, email: string, login: string) =>
-  ({ type: "SET_USER_DATA", data: { id, email, login } }) as const
+  ({ type: "SET_USER_DATA", payload: { id, email, login } }) as const
+export const resetAuthUserDataAC = () =>
+  ({ type: "RESET_USER_AUTH_DATA" }) as const
 
 // thunk
-export const getAuthUserDataTC = () => {
+export const getAuthUserDataTC = (): ThunkAction<void, RootState, unknown, ActionsTypes> => {
   return (dispatch: Dispatch) => {
     authAPI.me()
       .then((data) => {
@@ -53,14 +61,27 @@ export const getAuthUserDataTC = () => {
       })
   }
 }
-export const loginTC = (arg: Inputs) => {
-  return (dispatch: Dispatch) => {
+export const loginTC = (arg: Inputs): ThunkAction<void, RootState, unknown, ActionsTypes> => {
+  return (dispatch: AppDispatch) => {
     authAPI.login(arg)
       .then((res) => {
         // debugger
         if (res.data.resultCode === 0) {
-          // let { id, email, login } = res.data.data
-          // dispatch(setAuthUserDataAC(id, email, login))
+          dispatch(getAuthUserDataTC())
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching auth:", error)
+      })
+  }
+}
+export const logoutTC = (): ThunkAction<void, RootState, unknown, ActionsTypes> => {
+  return (dispatch: AppDispatch) => {
+    authAPI.logout()
+      .then((res) => {
+        // debugger
+        if (res.data.resultCode === 0) {
+          dispatch(resetAuthUserDataAC())
         }
       })
       .catch((error) => {

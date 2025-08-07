@@ -8,7 +8,7 @@ export const Routing = () => {
   return (
     <Routes>
       {/* Private routes. Если пользователь не залогинен, то он не попадает в этот роуты  */}
-      <Route element={<ProtectedRoute isAllowed={isAuth}/>}>
+      <Route element={<ProtectedRoute isAllowed={isAuth} redirectPath={PATH.LOGIN}/>}>
         <Route path={PATH.DIALOGS} element={<Dialogs />} />
         <Route path={PATH.PROFILE} element={<Profile />} />
         <Route path={'/profile/:userId'} element={<Profile />} />

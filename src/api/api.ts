@@ -30,7 +30,10 @@ export const authAPI = {
     return instance.get<BaseResponse<AuthType>>(`auth/me`).then((res) => res.data)
   },
   login(payload: Inputs) {
-    return instance.post<BaseResponse<AuthType>>(`/auth/login`, { ...payload })
+    return instance.post<BaseResponse<Login>>(`/auth/login`, { ...payload })
+  }, 
+  logout() {
+    return instance.delete<BaseResponse<{}>>(`/auth/login`)
   }
 }
 
@@ -64,4 +67,9 @@ export type BaseResponse<T> = {
   message: string[]
   fieldsErrors: string[]
   resultCode: number
+}
+
+type Login = {
+  userId: number
+  token: string
 }
