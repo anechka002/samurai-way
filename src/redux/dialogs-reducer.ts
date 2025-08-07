@@ -1,15 +1,16 @@
 import type { DialogPageType, MessageType } from "@/types";
 import { nanoid } from "@reduxjs/toolkit";
+import type { UsersType } from "./users-reducer";
 
 const initState: DialogPageType = {
   users: [
-    { id: 1, name: 'Sveta' },
-    { id: 2, name: 'Anna' },
-    { id: 3, name: 'Viktor' },
-    { id: 4, name: 'Valera' },
-    { id: 5, name: 'Alex' },
-    { id: 6, name: 'John' },
-  ],
+    { id: 1, name: 'Sveta', followed: false, status: 'is online', photos: { small: null, large: null }, uniqueUrlName: null },
+    { id: 2, name: 'Anna', followed: false, status: 'is online', photos: { small: null, large: null }, uniqueUrlName: null },
+    { id: 3, name: 'Viktor', followed: false, status: 'is online', photos: { small: null, large: null }, uniqueUrlName: null },
+    { id: 4, name: 'Valera', followed: false, status: 'is online', photos: { small: null, large: null }, uniqueUrlName: null },
+    { id: 5, name: 'Alex', followed: false, status: 'is online', photos: { small: null, large: null }, uniqueUrlName: null },
+    { id: 6, name: 'John', followed: false, status: 'is online', photos: { small: null, large: null }, uniqueUrlName: null },
+  ] as UsersType[],
   messages: [
     { id: nanoid(), text: 'Hi' },
     { id: nanoid(), text: 'Hello' },

@@ -6,21 +6,12 @@ export type PostType = {
   message: string;
   likesCount: number;
 };
-// export type UsersType = {
-//   id: number;
-//   name: string;
-//   uniqueUrlName: string | null;
-//   photos: {
-
-//   }
-// };
 export type MessageType = {
   id: string;
   text: string;
 };
 export type ProfilePageType = {
   posts: PostType[];
-  // newPostText: string;
   profile: ProfileType | null;
   status: string
 };
