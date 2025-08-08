@@ -12,13 +12,13 @@ export const Routing = () => {
         <Route path={PATH.DIALOGS} element={<Dialogs />} />
         <Route path={PATH.PROFILE} element={<Profile />} />
         <Route path={'/profile/:userId'} element={<Profile />} />
-        <Route path={PATH.USERS} element={<Users />} />
       </Route>
       {/* Private routes. Если пользователь залогинен, то он не попадает в этот роут */}
       <Route element={<ProtectedRoute isAllowed={!isAuth} redirectPath={PATH.PROFILE}/>}>
         <Route path={PATH.LOGIN} element={<Login />} />
       </Route>
 
+      <Route path={PATH.USERS} element={<Users />} />
       <Route path={PATH.NEWS} element={<News />} />
 
     </Routes>

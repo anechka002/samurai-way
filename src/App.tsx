@@ -1,26 +1,39 @@
-import './App.css';
-import { Header, NavBar } from './components';
-import { Routing } from './routing';
+import { useEffect, useState } from "react"
+import "./App.css"
+import { Header, NavBar, Preloader } from "./components"
+import { Routing } from "./routing"
+import { useAppDispatch } from "./hooks"
+import { initialize } from "./redux/app-reducer"
 
 function App() {
+  const dispatch = useAppDispatch()
+  const [isInitialized, setIsInitialized] = useState(false)
 
-  // const handleIncrementLikesCount = (postId: string) => {
-  //   setPosts(
-  //     posts.map((p) =>
-  //       p.id === postId ? { ...p, likesCount: p.likesCount + 1 } : p
-  //     )
-  //   );
-  // };
+  useEffect(() => {
+    dispatch(initialize())
+    .then(() => {
+      setIsInitialized(true)
+    })
+    .catch(() => {
+      setIsInitialized(true)
+    })
+  }, [])
+
+  if(!isInitialized) {
+    return (
+      <Preloader/>
+    )
+  }
 
   return (
     <div className="app-wrapper">
       <Header />
       <NavBar />
       <div className="app-wrapper-content">
-        <Routing/>
+        <Routing />
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

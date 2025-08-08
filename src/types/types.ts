@@ -55,3 +55,5 @@ export type Inputs = {
   rememberMe: boolean
   captcha?: string
 }
+
+export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed'

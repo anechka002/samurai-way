@@ -50,20 +50,21 @@ export const resetAuthUserDataAC = () =>
   ({ type: "RESET_USER_AUTH_DATA" }) as const
 
 // thunk
-export const getAuthUserDataTC = (): ThunkAction<void, RootState, unknown, ActionsTypes> => {
+export const getAuthUserDataTC = (): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> => {
   return (dispatch: Dispatch) => {
-    authAPI.me()
+    return authAPI.me()
       .then((data) => {
         if (data.resultCode === ResultCode.Success) {
-          let { id, email, login } = data.data
-          dispatch(setAuthUserDataAC(id, email, login))
-        } 
+          const { id, email, login } = data.data;
+          dispatch(setAuthUserDataAC(id, email, login));
+        }
       })
       .catch((error) => {
-        console.error("Error fetching auth:", error)
-      })
-  }
-}
+        console.error("Error fetching auth:", error);
+        throw error;
+      });
+  };
+};
 export const loginTC = (arg: Inputs): ThunkAction<void, RootState, unknown, ActionsTypes> => {
   return (dispatch: AppDispatch) => {
     authAPI.login(arg)

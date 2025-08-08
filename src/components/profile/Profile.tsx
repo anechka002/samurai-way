@@ -9,12 +9,9 @@ import { useParams } from "react-router"
 export const Profile = () => {
   let { userId } = useParams<{userId: string}>(); // Получение параметра id
   const profile = useAppSelector((state) => state.profilePage.profile)
+  const authorizedUserId = useAppSelector(state => state.auth.id)
 
-  // if(!userId) {
-  //   userId = 2
-  // }
-
-  const numericUserId = parseInt(userId || "31217", 10);
+  const numericUserId = parseInt(userId || (authorizedUserId !== null ? authorizedUserId.toString() : '0'), 10);
 
   const dispatch = useAppDispatch()
 

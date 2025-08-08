@@ -1,17 +1,12 @@
-import { useEffect } from 'react';
 import s from './Header.module.css'
 import { NavLink } from 'react-router';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { getAuthUserDataTC, logoutTC } from '@/redux/auth-reducer';
+import { logoutTC } from '@/redux/auth-reducer';
 
 export const Header = () => {
   const dispatch = useAppDispatch()
   const isAuth = useAppSelector(state => state.auth.isAuth)
   const login = useAppSelector(state => state.auth.login)
-
-  useEffect(() => {
-    dispatch(getAuthUserDataTC())
-  }, [])
 
   const logoutHandler = () => {
     dispatch(logoutTC())
