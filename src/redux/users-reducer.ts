@@ -1,4 +1,5 @@
 import { followAPI, usersAPI } from "@/api/api"
+import { ResultCode } from "@/enum"
 import type { Dispatch } from "@reduxjs/toolkit"
 
 type UserPhoto = {
@@ -118,7 +119,7 @@ export const unfollowTC = (userId: number) => {
   return (dispatch: Dispatch) => {
     dispatch(toggleIsFollowingProgressAC(true, userId))
     followAPI.unfollow(userId).then((data) => {
-      if (data.resultCode === 0) {
+      if (data.resultCode === ResultCode.Success) {
         dispatch(unfollowAC(userId))
       }
       dispatch(toggleIsFollowingProgressAC(false, userId))
@@ -130,7 +131,7 @@ export const followTC = (userId: number) => {
   return (dispatch: Dispatch) => {
     dispatch(toggleIsFollowingProgressAC(true, userId))
     followAPI.follow(userId).then((data) => {
-      if (data.resultCode === 0) {
+      if (data.resultCode === ResultCode.Success) {
         dispatch(followAC(userId))
       }
       dispatch(toggleIsFollowingProgressAC(false, userId))

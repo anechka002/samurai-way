@@ -1,4 +1,5 @@
 import { profileAPI } from '@/api/api';
+import { ResultCode } from '@/enum';
 import type { PostType, ProfilePageType, ProfileType } from '@/types';
 import { nanoid, type Dispatch } from '@reduxjs/toolkit';
 
@@ -17,7 +18,6 @@ const initState: ProfilePageType = {
       likesCount: 10,
     },
   ],
-  // newPostText: 'Test',
   profile: null,
   status: '',
 };
@@ -37,15 +37,8 @@ export const profileReducer = (
       return {
         ...state,
         posts: [newPost, ...state.posts],
-        // newPostText: '',
       };
     }
-    // case 'UPDATE-NEW-POST-TEXT': {
-    //   return {
-    //     ...state,
-    //     newPostText: action.newText,
-    //   };
-    // }
     case 'SET_USER_PROFILE': {
       return {
         ...state,
@@ -66,15 +59,12 @@ export const profileReducer = (
 
 export type ActionsTypes =
   | ReturnType<typeof addPostAC>
-  // | ReturnType<typeof updateNewPostTextAC>
   | ReturnType<typeof setUserProfileAC>
   | ReturnType<typeof setStatusProfileAC>
 
 // action creators
 export const addPostAC = (newPostText: string) =>
   ({ type: 'ADD-POST', newPostText } as const);
-// export const updateNewPostTextAC = (text: string) =>
-//   ({ type: 'UPDATE-NEW-POST-TEXT', newText: text } as const);
 export const setUserProfileAC = (profile: ProfileType) =>
   ({ type: 'SET_USER_PROFILE', profile } as const);
 export const setStatusProfileAC = (status: string) =>
@@ -110,7 +100,7 @@ export const updateStatusTC = (status: string) => {
   return (dispatch: Dispatch) => {
     profileAPI.updateStatus(status)
       .then((data) => {
-        if(data.resultCode === 0) {
+        if(data.resultCode === ResultCode.Success) {
           dispatch(setStatusProfileAC(status))
         }
       })

@@ -1,3 +1,4 @@
+import type { ResultCode } from "@/enum";
 import type { UsersType } from "@/redux/users-reducer"
 import type { Inputs, ProfileType } from '@/types';
 import axios from "axios"
@@ -64,9 +65,9 @@ type AuthType = {
 
 export type BaseResponse<T> = {
   data: T
-  message: string[]
+  messages: string[]
   fieldsErrors: string[]
-  resultCode: number
+  resultCode: ResultCode
 }
 
 type Login = {

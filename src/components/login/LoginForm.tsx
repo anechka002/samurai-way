@@ -1,4 +1,4 @@
-import { useAppDispatch } from "@/hooks"
+import { useAppDispatch, useAppSelector } from "@/hooks"
 import { useForm, type SubmitHandler } from "react-hook-form"
 import s from './Login.module.css'
 import type { Inputs } from "@/types"
@@ -6,6 +6,8 @@ import { loginTC } from "@/redux/auth-reducer"
 
 export const LoginForm = () => {
   const dispatch = useAppDispatch()
+
+  const error = useAppSelector(state => state.app.error)
 
   const {
     register,
@@ -19,6 +21,7 @@ export const LoginForm = () => {
     // console.log(data)
     dispatch(loginTC(data))
   }
+
   return (
     <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
       <div>
@@ -33,6 +36,7 @@ export const LoginForm = () => {
         <input className={s.checkbox} type="checkbox" />
         <span> remember me</span>
       </div>
+      {error && <p className={s.errorMessage}>{error}</p>}
       <div>
         <button className={s.button} type="submit" >Login</button>
       </div>

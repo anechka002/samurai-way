@@ -2,6 +2,9 @@ import { authAPI } from "@/api/api"
 import type { Inputs } from "@/types"
 import type { Dispatch, ThunkAction } from "@reduxjs/toolkit"
 import type { AppDispatch, RootState } from "./redux-store"
+import { handleServerAppError } from "@/utils/handleServerAppError"
+import { ResultCode } from "@/enum"
+import { setErrorAC } from "./app-reducer"
 
 type AuthType = {
   id: null | number
@@ -51,10 +54,10 @@ export const getAuthUserDataTC = (): ThunkAction<void, RootState, unknown, Actio
   return (dispatch: Dispatch) => {
     authAPI.me()
       .then((data) => {
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCode.Success) {
           let { id, email, login } = data.data
           dispatch(setAuthUserDataAC(id, email, login))
-        }
+        } 
       })
       .catch((error) => {
         console.error("Error fetching auth:", error)
@@ -66,8 +69,12 @@ export const loginTC = (arg: Inputs): ThunkAction<void, RootState, unknown, Acti
     authAPI.login(arg)
       .then((res) => {
         // debugger
-        if (res.data.resultCode === 0) {
+        // console.log(res.data)
+        if (res.data.resultCode === ResultCode.Success) {
           dispatch(getAuthUserDataTC())
+          dispatch(setErrorAC({error: null}))
+        } else {
+          handleServerAppError(dispatch, res.data)
         }
       })
       .catch((error) => {
@@ -80,8 +87,11 @@ export const logoutTC = (): ThunkAction<void, RootState, unknown, ActionsTypes> 
     authAPI.logout()
       .then((res) => {
         // debugger
-        if (res.data.resultCode === 0) {
+        if (res.data.resultCode === ResultCode.Success) {
           dispatch(resetAuthUserDataAC())
+          dispatch(setErrorAC({error: null}))
+        } else {
+          handleServerAppError(dispatch, res.data)
         }
       })
       .catch((error) => {
