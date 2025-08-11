@@ -15,7 +15,7 @@ export const MyPosts = ({ posts, onClickAddPost }: Props) => {
       <h3>My post</h3>
       <AddMessageForm onSubmit={onClickAddPost}/>
       <div className={s.posts}>
-        {posts.map((post) => (
+        {[...posts].reverse().map((post) => (
           <Post
             key={post.id}
             post={post}
