@@ -15,10 +15,10 @@ const initState: AppType = {
 
 export const appReducer = (state: AppType = initState, action: ActionsTypes): AppType => {
   switch (action.type) {
-    case 'SET_ERROR': {
+    case 'app/SET_ERROR': {
       return { ...state, error: action.payload.error }
     }
-    case 'SET_STATUS': {
+    case 'app/SET_STATUS': {
       return { ...state, status: action.payload.status }
     }
     default: {
@@ -31,20 +31,20 @@ export type ActionsTypes = ReturnType<typeof setErrorAC> | ReturnType<typeof set
 
 // action creators
 export const setErrorAC = (payload: {error: null | string}) =>
-  ({ type: "SET_ERROR", payload}) as const
+  ({ type: "app/SET_ERROR", payload}) as const
 export const setStatusAC = (payload: {status: RequestStatus}) =>
-  ({ type: "SET_STATUS", payload}) as const
+  ({ type: "app/SET_STATUS", payload}) as const
 
 // thunk 
 export const initialize = (): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> => 
-(dispatch: AppDispatch) => {
-  return dispatch(getAuthUserDataTC())
-    .then(() => {
-      dispatch(setStatusAC({ status: 'succeeded' }));
-    })
-    .catch((error) => {
-      dispatch(setErrorAC({ error: error.message || 'Some error occurred' }));
-      dispatch(setStatusAC({ status: 'failed' }));
-      throw error; // Пробрасываем ошибку
-    });
+async(dispatch: AppDispatch) => {
+  dispatch(setStatusAC({ status: 'loading' }));
+  try {
+    await dispatch(getAuthUserDataTC())
+    dispatch(setStatusAC({ status: 'succeeded' }));
+  } catch (error: any) {
+    dispatch(setErrorAC({ error: error.message || 'Some error occurred' }));
+    dispatch(setStatusAC({ status: 'failed' }));
+    throw error; // Пробрасываем ошибку
+  }
 };
