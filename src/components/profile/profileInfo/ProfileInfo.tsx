@@ -1,8 +1,9 @@
-import { Preloader } from "@/components/preloader/Preloader"
+import { Preloader } from "@/components/common/preloader/Preloader"
 import s from "./ProfileInfo.module.css"
 import type { ProfileType } from "@/types"
 import { ProfileStatus } from "./ProfileStatus"
 import { useAppSelector } from "@/hooks"
+import userPhoto from "../../../assets/images/user.png"
 
 type Props = {
   profile: ProfileType | null
@@ -22,10 +23,10 @@ export const ProfileInfo = ({ profile }: Props) => {
           alt="img"
         /> */}
       </div>
+      <h2 className={s.name}>{profile.fullName}</h2>
       <div className={s.descriptionBlock}>
-        <img src={profile.photos.large} />
+        <img src={profile.photos.large !== null ? profile.photos.large : userPhoto} alt="photo" />
         <div className={s.profileBlock}>
-          <h2>{profile.fullName}</h2>
           <ProfileStatus status={status} />
           <h3>{profile.aboutMe}</h3>
           <h4>Contacts:</h4>

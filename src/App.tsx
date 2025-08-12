@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
 import "./App.css"
-import { Header, NavBar, Preloader } from "./components"
+import { Header, NavBar } from "./components"
 import { Routing } from "./routing"
 import { useAppDispatch } from "./hooks"
 import { initialize } from "./redux/app-reducer"
+import { Preloader } from "./components/common"
 
 function App() {
   const dispatch = useAppDispatch()

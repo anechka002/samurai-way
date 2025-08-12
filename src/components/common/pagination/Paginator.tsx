@@ -7,7 +7,7 @@ type Props = {
   onChange: (event: React.ChangeEvent<unknown>, page: number) => void;
 }
 
-export const PaginationRounded = ({count, page, onChange}: Props) => {
+export const Paginator = ({count, page, onChange}: Props) => {
   return (
     <Stack spacing={2}>
       <Pagination count={count} page={page} onChange={onChange} variant="outlined" shape="rounded" />

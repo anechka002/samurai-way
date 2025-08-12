@@ -4,7 +4,7 @@ import type { ThunkAction } from "@reduxjs/toolkit"
 import type { AppDispatch, RootState } from "./redux-store"
 import { handleServerAppError } from "@/utils/handleServerAppError"
 import { ResultCode } from "@/enum"
-import { setErrorAC } from "./app-reducer"
+import { setErrorAC, setStatusAC } from "./app-reducer"
 
 type AuthType = {
   id: null | number
@@ -51,24 +51,28 @@ export const resetAuthUserDataAC = () => ({ type: "auth/RESET_USER_AUTH_DATA" })
 // thunk
 export const getAuthUserDataTC = (): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> => {
   return async (dispatch: AppDispatch) => {
+    dispatch(setStatusAC({ status: 'loading' }));
     try {
       let data = await authAPI.me()
-
       if (data.resultCode === ResultCode.Success) {
+        dispatch(setStatusAC({ status: 'succeeded' }));
         const { id, email, login } = data.data
         dispatch(setAuthUserDataAC(id, email, login))
       }
     } catch (error) {
       console.error("Error fetching auth:", error)
+      dispatch(setStatusAC({ status: 'failed' }));
       throw error
     }
   }
 }
 export const loginTC = (arg: Inputs): ThunkAction<void, RootState, unknown, ActionsTypes> => {
   return async (dispatch: AppDispatch) => {
+    dispatch(setStatusAC({ status: 'loading' }));
     try {
       let res = await authAPI.login(arg)
       if (res.data.resultCode === ResultCode.Success) {
+        dispatch(setStatusAC({ status: 'succeeded' }));
         dispatch(getAuthUserDataTC())
         dispatch(setErrorAC({ error: null }))
       } else {
@@ -76,14 +80,17 @@ export const loginTC = (arg: Inputs): ThunkAction<void, RootState, unknown, Acti
       }
     } catch (error) {
       console.error("Error fetching auth:", error)
+      dispatch(setStatusAC({ status: 'failed' }));
     }
   }
 }
 export const logoutTC = (): ThunkAction<void, RootState, unknown, ActionsTypes> => {
   return async (dispatch: AppDispatch) => {
+    dispatch(setStatusAC({ status: 'loading' }));
     try {
       let res = await authAPI.logout()
       if (res.data.resultCode === ResultCode.Success) {
+        dispatch(setStatusAC({ status: 'succeeded' }));
         dispatch(resetAuthUserDataAC())
         dispatch(setErrorAC({ error: null }))
       } else {
@@ -91,6 +98,7 @@ export const logoutTC = (): ThunkAction<void, RootState, unknown, ActionsTypes> 
       }
     } catch (error) {
       console.error("Error fetching auth:", error)
+      dispatch(setStatusAC({ status: 'failed' }));
     }
   }
 }
