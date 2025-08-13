@@ -1,12 +1,14 @@
-import s from './Header.module.css'
-import { NavLink } from 'react-router';
-import { useAppDispatch, useAppSelector } from '@/hooks';
-import { logoutTC } from '@/redux/auth-reducer';
+import s from "./Header.module.css"
+import { NavLink } from "react-router"
+import { useAppDispatch, useAppSelector } from "@/hooks"
+import { logoutTC } from "@/redux/auth-reducer"
+import userPhoto from "../../assets/images/user.png"
 
 export const Header = () => {
   const dispatch = useAppDispatch()
-  const isAuth = useAppSelector(state => state.auth.isAuth)
-  const login = useAppSelector(state => state.auth.login)
+  const isAuth = useAppSelector((state) => state.auth.isAuth)
+  const login = useAppSelector((state) => state.auth.login)
+  const profile = useAppSelector((state) => state.profilePage.profile)
 
   const logoutHandler = () => {
     dispatch(logoutTC())
@@ -19,11 +21,18 @@ export const Header = () => {
         alt=""
       />
       <div>
-        {isAuth 
-          ? <div className={s.loginBlock}>{login} <button onClick={logoutHandler}>Logout</button></div>  
-          : <NavLink className={s.loginBlock} to={'/login'}><button >Login</button></NavLink>}
+        {isAuth ? (
+          <div className={s.loginBlock}>
+            <img src={profile?.photos.small ? profile.photos.small : userPhoto} alt="" />
+            {login} 
+            <button onClick={logoutHandler}>Logout</button>
+          </div>
+        ) : (
+          <NavLink className={s.loginBlock} to={"/login"}>
+            <button>Login</button>
+          </NavLink>
+        )}
       </div>
     </header>
-  );
+  )
 }
-
