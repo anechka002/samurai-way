@@ -30,10 +30,7 @@ export const authReducer = (state: AuthType = initState, action: ActionsTypes): 
       }
     }
     case "auth/RESET_USER_AUTH_DATA": {
-      return {
-        ...state,
-        ...initState,
-      }
+      return initState
     }
     default: {
       return state
@@ -84,14 +81,14 @@ export const loginTC = (arg: Inputs): ThunkAction<void, RootState, unknown, Acti
     }
   }
 }
-export const logoutTC = (): ThunkAction<void, RootState, unknown, ActionsTypes> => {
+export const logoutTC = (): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> => {
   return async (dispatch: AppDispatch) => {
     dispatch(setStatusAC({ status: 'loading' }));
     try {
       let res = await authAPI.logout()
       if (res.data.resultCode === ResultCode.Success) {
         dispatch(setStatusAC({ status: 'succeeded' }));
-        dispatch(resetAuthUserDataAC())
+        dispatch(resetAuthUserDataAC())      
         dispatch(setErrorAC({ error: null }))
       } else {
         handleServerAppError(dispatch, res.data)

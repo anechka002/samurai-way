@@ -1,4 +1,4 @@
-import { useAppDispatch } from "@/hooks"
+import { useAppDispatch, useAppSelector } from "@/hooks"
 import s from "./Users.module.css"
 import { followTC, unfollowTC, type UsersType } from "@/redux/users-reducer"
 import userPhoto from "../../assets/images/user.png"
@@ -9,9 +9,11 @@ type Props = {
   followingInProgress: number[]
 }
 
-export const User = ({user, followingInProgress}: Props) => {
-
+export const User = ({ user, followingInProgress }: Props) => {
+  const authorizedUserId = useAppSelector(state => state.auth.id)
   const dispatch = useAppDispatch()
+
+  const isFollowingDisabled = authorizedUserId === null;
 
   return (
     <div className={s.container}>
@@ -23,7 +25,7 @@ export const User = ({user, followingInProgress}: Props) => {
           {user.followed ? (
             <button
               className={s.button}
-              disabled={followingInProgress.some((el) => el === user.id)}
+              disabled={isFollowingDisabled || followingInProgress.some((el) => el === user.id)}
               onClick={() => {
                 dispatch(unfollowTC(user.id))
               }}
@@ -33,7 +35,7 @@ export const User = ({user, followingInProgress}: Props) => {
           ) : (
             <button
               className={s.button}
-              disabled={followingInProgress.some((el) => el === user.id)}
+              disabled={isFollowingDisabled || followingInProgress.some((el) => el === user.id)}
               onClick={() => {
                 dispatch(followTC(user.id))
               }}

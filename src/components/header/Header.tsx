@@ -3,15 +3,20 @@ import { NavLink } from "react-router"
 import { useAppDispatch, useAppSelector } from "@/hooks"
 import { logoutTC } from "@/redux/auth-reducer"
 import userPhoto from "../../assets/images/user.png"
+import { getUsersTC } from "@/redux/users-reducer"
 
 export const Header = () => {
   const dispatch = useAppDispatch()
   const isAuth = useAppSelector((state) => state.auth.isAuth)
   const login = useAppSelector((state) => state.auth.login)
   const profile = useAppSelector((state) => state.profilePage.profile)
+  const currentPage = useAppSelector((state) => state.usersPage.currentPage)
+  const pageSize = useAppSelector((state) => state.usersPage.pageSize)
 
   const logoutHandler = () => {
-    dispatch(logoutTC())
+    dispatch(logoutTC()).then(() => {
+      dispatch(getUsersTC(currentPage, pageSize))
+    })
   }
 
   return (
