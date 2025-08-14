@@ -9,7 +9,7 @@ import { User } from "./User"
 export const Users = () => {
   const users = useAppSelector((state) => state.usersPage.users)
   const pageSize = useAppSelector((state) => state.usersPage.pageSize)
-  const totalUsersCount = useAppSelector((state) => state.usersPage.totalUsersCount)
+  const totalItemsCount = useAppSelector((state) => state.usersPage.totalItemsCount)
   const currentPage = useAppSelector((state) => state.usersPage.currentPage)
   const isFetching = useAppSelector((state) => state.usersPage.isFetching)
   const followingInProgress = useAppSelector((state) => state.usersPage.followingInProgress)
@@ -20,7 +20,7 @@ export const Users = () => {
     dispatch(getUsersTC(currentPage, pageSize))
   }, [currentPage, pageSize])
 
-  const pagesCount = Math.ceil(totalUsersCount / pageSize)
+  const pagesCount = Math.ceil(totalItemsCount / pageSize)
 
   const onPageChangedHandler = (e: React.ChangeEvent<unknown>, pageNumber: number) => {
     dispatch(setCurrentPageAC(pageNumber))
