@@ -12,11 +12,11 @@ export type MessageType = {
 };
 export type ProfilePageType = {
   posts: PostType[];
-  profile: ProfileType | null;
+  profile: ProfileType ;
   status: string
 };
 export type ProfileType = {
-  aboutMe: string;
+  aboutMe?: string;
   contacts: Contacts;
   lookingForAJob: boolean;
   lookingForAJobDescription: string;
@@ -25,16 +25,16 @@ export type ProfileType = {
   photos: Photos;
 }
 type Contacts = {
-  facebook: string;
-  website: null | string;
-  vk: string;
-  twitter: string;
-  instagram: string;
-  youtube: null | string;
-  github: string;
-  mainLink: null | string;
+  facebook?: string;
+  website?: null | string;
+  vk?: string;
+  twitter?: string;
+  instagram?: string;
+  youtube?: null | string;
+  github?: string;
+  mainLink?: null | string;
 }
-type Photos = {
+export type Photos = {
   small: string;
   large: string;
 }

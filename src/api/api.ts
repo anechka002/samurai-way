@@ -1,6 +1,6 @@
 import type { ResultCode } from "@/enum";
 import type { UsersType } from "@/redux/users-reducer"
-import type { Inputs, ProfileType } from '@/types';
+import type { Inputs, Photos, ProfileType } from '@/types';
 import axios from "axios"
 
 const instance = axios.create({
@@ -47,7 +47,25 @@ export const profileAPI = {
   },
   updateStatus(status: string) {
     return instance.put<BaseResponse<{}>>(`profile/status`, { status }).then((res) => res.data)
-  }
+  },
+  savePhoto(photo: File) {
+    const formData = new FormData();
+    formData.append("image", photo);
+
+    return instance.put<SavePhotoResponse>(`/profile/photo`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
+  },
+}
+
+type SavePhotoResponse = {
+  data: {
+    photos: Photos;
+  };
+  resultCode: ResultCode;
+  messages: string[];
 }
 
 

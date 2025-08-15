@@ -3,18 +3,21 @@ import s from "./ProfileInfo.module.css"
 import type { ProfileType } from "@/types"
 import { ProfileStatus } from "./ProfileStatus"
 import { useAppSelector } from "@/hooks"
-import userPhoto from "../../../assets/images/user.png"
+import { AddPhoto } from "./addPhoto/AddPhoto"
 
 type Props = {
   profile: ProfileType | null
+  isOwner: boolean
 }
 
-export const ProfileInfo = ({ profile }: Props) => {
+export const ProfileInfo = ({ profile, isOwner }: Props) => {
   const status = useAppSelector((state) => state.profilePage.status)
+
 
   if (!profile) {
     return <Preloader />
   }
+
   return (
     <>
       <div>
@@ -25,7 +28,9 @@ export const ProfileInfo = ({ profile }: Props) => {
       </div>
       <h2 className={s.name}>{profile.fullName}</h2>
       <div className={s.descriptionBlock}>
-        <img src={profile.photos.large !== null ? profile.photos.large : userPhoto} alt="photo" />
+
+        {isOwner && <AddPhoto/>}
+
         <div className={s.profileBlock}>
           <ProfileStatus status={status} />
           <h3>{profile.aboutMe}</h3>

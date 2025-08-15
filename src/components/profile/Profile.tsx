@@ -22,7 +22,7 @@ export const Profile = () => {
 
   return (
     <div className={s.profile}>
-      <ProfileInfo profile={profile}/>
+      <ProfileInfo isOwner={!userId} profile={profile} />
       <MyPostsContainer />
     </div>
   )

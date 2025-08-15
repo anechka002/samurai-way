@@ -1,6 +1,6 @@
 import { profileAPI } from "@/api/api"
 import { ResultCode } from "@/enum"
-import type { PostType, ProfilePageType, ProfileType } from "@/types"
+import type { Photos, PostType, ProfilePageType, ProfileType } from "@/types"
 import { nanoid, type Dispatch } from "@reduxjs/toolkit"
 
 const initState: ProfilePageType = {
@@ -18,7 +18,27 @@ const initState: ProfilePageType = {
       likesCount: 10,
     },
   ],
-  profile: null,
+  profile: {
+    aboutMe: "",
+    contacts: {
+      facebook: "",
+      website: null,
+      vk: "",
+      twitter: "",
+      instagram: "",
+      youtube: null,
+      github: "",
+      mainLink: null,
+    },
+    lookingForAJob: false,
+    lookingForAJobDescription: "",
+    fullName: "",
+    userId: 0,
+    photos: {
+      small: "",
+      large: "",
+    }
+  },
   status: "",
 }
 
@@ -54,6 +74,15 @@ export const profileReducer = (state: ProfilePageType = initState, action: Actio
         status: action.status,
       }
     }
+    case "profile/SAVE_PHOTO_SUCCESS": {
+      return { 
+        ...state,
+        profile: { 
+          ...state.profile, 
+          photos: action.photos
+        },
+      }
+    }
     default: {
       return state
     }
@@ -65,10 +94,12 @@ export type ActionsTypes =
   | ReturnType<typeof deletePostAC>
   | ReturnType<typeof setUserProfileAC>
   | ReturnType<typeof setStatusProfileAC>
+  | ReturnType<typeof savePhotoSuccessAC>
 
 // action creators
 export const addPostAC = (newPostText: string) => ({ type: "profile/ADD-POST", newPostText }) as const
 export const deletePostAC = (postId: string) => ({ type: "profile/DELETE-POST", postId }) as const
+export const savePhotoSuccessAC = (photos: Photos) => ({ type: "profile/SAVE_PHOTO_SUCCESS", photos }) as const
 export const setUserProfileAC = (profile: ProfileType) => ({ type: "profile/SET_USER_PROFILE", profile }) as const
 export const setStatusProfileAC = (status: string) => ({ type: "profile/SET_STATUS_PROFILE", status }) as const
 
@@ -101,6 +132,20 @@ export const updateStatusTC = (status: string) => {
       let data = await profileAPI.updateStatus(status)
       if (data.resultCode === ResultCode.Success) {
         dispatch(setStatusProfileAC(status))
+      }
+    } catch (error) {
+      console.error("Error fetching profile:", error)
+    }
+  }
+}
+
+export const savePhotoTC = (photo: File) => {
+  return async (dispatch: Dispatch) => {
+    // debugger
+    try {
+      let res = await profileAPI.savePhoto(photo)
+      if (res.data.resultCode === ResultCode.Success && res.data.data) {
+        dispatch(savePhotoSuccessAC(res.data.data.photos))
       }
     } catch (error) {
       console.error("Error fetching profile:", error)
