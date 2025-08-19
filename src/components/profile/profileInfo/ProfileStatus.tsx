@@ -34,7 +34,8 @@ export const ProfileStatus = ({ status }: Props) => {
     <div className={s.status}>
       {!editMode ? (
         <div>
-          <span onDoubleClick={activateEditModeHandler}>{status || "No status"}</span>
+          <h3 className={s.statusTitle}>Status:<span className={s.statusText} onDoubleClick={activateEditModeHandler}>{status || "No status"}</span></h3>
+          
         </div>
       ) : (
         <div>

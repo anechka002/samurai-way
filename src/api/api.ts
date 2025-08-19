@@ -58,6 +58,9 @@ export const profileAPI = {
         },
     });
   },
+  saveProfile(profile: ProfileType) {
+    return instance.put<BaseResponse<{}>>(`profile`, profile)
+  }
 }
 
 type SavePhotoResponse = {

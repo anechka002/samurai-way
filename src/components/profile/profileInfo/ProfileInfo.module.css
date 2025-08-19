@@ -1,3 +1,10 @@
+.container {
+  display: flex;
+  gap: 35px;
+  align-items: center;
+  padding: 10px;
+}
+
 .descriptionBlock {
   padding: 10px;
   display: flex;
@@ -5,12 +12,63 @@
   align-items: center;
 }
 
-.profileBlock {
+.profileData {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
 }
 
-.name {
-  margin: 10px 10px 0 10px;
+.aboutMe span {
+  color: white;
+  font-weight: 300;
+}
+
+.statusText {
+  font-weight: bold;
+  margin-left: 5px;
+  color: white;
+}
+
+.statusTitle {
+  cursor: pointer;
+
+}
+
+.avatarContainer {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.avatar {
+  display: block;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.contact {
+  font-size: 16px;
+}
+
+.contact span {
+  color: gold;
+  font-weight: 300;
+}
+
+.button {
+  margin-top: 10px;
+  background-color: #fff;
+  border: none;
+  padding: 5px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button:hover {
+  border-radius: 5px;
+  background-color: rgb(8, 102, 233);
+  transform: scale(1.05); 
+  color: white; 
 }

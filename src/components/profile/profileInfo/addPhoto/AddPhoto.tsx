@@ -2,13 +2,13 @@ import { useAppDispatch, useAppSelector } from "@/hooks"
 import { savePhotoTC } from "@/redux/profile-reducer"
 import { useRef, type ChangeEvent } from "react"
 import addPhoto from '../../../../assets/add_person.png'
-import userPhoto from "../../../../assets/images/user.png"
 import styles from './AddPhoto.module.css'
 
 export const AddPhoto = () => {
   const inRef = useRef<HTMLInputElement>(null)
   const dispatch = useAppDispatch()
   const photo = useAppSelector(state => state.profilePage.profile?.photos.large)
+  console.log(photo)
 
   const onClickUploadHandler = () => {
     inRef && inRef.current?.click()
@@ -22,13 +22,8 @@ export const AddPhoto = () => {
 
   return (
     <div className={styles.photoContainer}>
-      <img
-        className={styles.photo}
-        src={photo !== null ? photo: userPhoto} 
-        alt="avatar" 
-      />
-      <div className={styles.photoOverlay}>
-        <img onClick={onClickUploadHandler} src={addPhoto} alt="Add" style={{ width: '80px', height: '80px', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />
+      <div className={styles.photoOverlay} onClick={onClickUploadHandler}>
+        <img className={styles.uploadIcon} src={addPhoto} alt="Add" />
       </div>
       <input ref={inRef} type={"file"} onChange={onMainPhotoSelectedHandler} accept={"image/*"} style={{ display: "none" }} />
     </div>

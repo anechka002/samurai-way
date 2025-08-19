@@ -24,15 +24,15 @@ export type ProfileType = {
   userId: number;
   photos: Photos;
 }
-type Contacts = {
+export type Contacts = {
   facebook?: string;
-  website?: null | string;
+  website?: string;
   vk?: string;
   twitter?: string;
   instagram?: string;
-  youtube?: null | string;
+  youtube?: string;
   github?: string;
-  mainLink?: null | string;
+  mainLink?: string;
 }
 export type Photos = {
   small: string;

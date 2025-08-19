@@ -1,7 +1,10 @@
 import { profileAPI } from "@/api/api"
 import { ResultCode } from "@/enum"
 import type { Photos, PostType, ProfilePageType, ProfileType } from "@/types"
-import { nanoid, type Dispatch } from "@reduxjs/toolkit"
+import { nanoid, type Dispatch, type ThunkAction } from "@reduxjs/toolkit"
+import type { AppDispatch, RootState } from "./redux-store"
+import { setErrorAC } from "./app-reducer"
+import { handleServerAppError } from "@/utils/handleServerAppError"
 
 const initState: ProfilePageType = {
   posts: [
@@ -22,13 +25,13 @@ const initState: ProfilePageType = {
     aboutMe: "",
     contacts: {
       facebook: "",
-      website: null,
+      website: "",
       vk: "",
       twitter: "",
       instagram: "",
-      youtube: null,
+      youtube: "",
       github: "",
-      mainLink: null,
+      mainLink: "",
     },
     lookingForAJob: false,
     lookingForAJobDescription: "",
@@ -37,7 +40,7 @@ const initState: ProfilePageType = {
     photos: {
       small: "",
       large: "",
-    }
+    },
   },
   status: "",
 }
@@ -75,11 +78,11 @@ export const profileReducer = (state: ProfilePageType = initState, action: Actio
       }
     }
     case "profile/SAVE_PHOTO_SUCCESS": {
-      return { 
+      return {
         ...state,
-        profile: { 
-          ...state.profile, 
-          photos: action.photos
+        profile: {
+          ...state.profile,
+          photos: action.photos,
         },
       }
     }
@@ -146,6 +149,31 @@ export const savePhotoTC = (photo: File) => {
       let res = await profileAPI.savePhoto(photo)
       if (res.data.resultCode === ResultCode.Success && res.data.data) {
         dispatch(savePhotoSuccessAC(res.data.data.photos))
+      }
+    } catch (error) {
+      console.error("Error fetching profile:", error)
+    }
+  }
+}
+
+export const saveProfileTC = (profile: ProfileType): ThunkAction<Promise<void>, RootState, unknown, ActionsTypes> => {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
+    const userId = getState().auth.id
+
+    // Проверка на null перед использованием
+    if (userId === null) {
+      console.error("User ID is null")
+      return // Или выбросить ошибку, если это критично
+    }
+    // debugger
+    try {
+      let res = await profileAPI.saveProfile(profile)
+      if (res.data.resultCode === ResultCode.Success && res.data.data) {
+        dispatch(getUserProfileTC(userId))
+        dispatch(setErrorAC({ error: null }))
+      } else {
+        handleServerAppError(dispatch, res.data)
+        return Promise.reject(res.data.messages[0])
       }
     } catch (error) {
       console.error("Error fetching profile:", error)
